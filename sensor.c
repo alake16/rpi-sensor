@@ -1,10 +1,14 @@
 #include <wiringSerial.h>
 #include <wiringPi.h>
+#include <sys/time.h>
+#include <stddef.h>
+#include <stdio.h>
 
 unsigned long pulse_width;
 
 int setup()
 {
+  wiringPiSetupGpio();
  // Serial.begin(9600); // Start serial communications
   int s = serialOpen("pi", 9600);
   pinMode(15, OUTPUT); // Set pin 2 as trigger pin
@@ -53,11 +57,12 @@ int pulseIn(int pin, int level, int timeout)
 
 void loop(int s)
 {
-  pulse_width = pulseIn(3, HIGH); // Count how long the pulse is high in microseconds
+  pulse_width = pulseIn(14, HIGH, 1000000); // Count how long the pulse is high in microseconds
   if(pulse_width != 0){ // If we get a reading that isn't zero, let's print it
         pulse_width = pulse_width/10; // 10usec = 1 cm of distance for LIDAR-Lite
   	//Serial.println(pulse_width); // Print the distance
 	serialPrintf(s, "test message");
+	printf("%d", pulse_width);
   }
   delay(20); //Delay so we don't overload the serial port
 }
