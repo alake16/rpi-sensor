@@ -13,17 +13,6 @@ int setup()
   return s;
 }
 
-void loop(int s)
-{
-  pulse_width = pulseIn(3, HIGH); // Count how long the pulse is high in microseconds
-  if(pulse_width != 0){ // If we get a reading that isn't zero, let's print it
-        pulse_width = pulse_width/10; // 10usec = 1 cm of distance for LIDAR-Lite
-  	//Serial.println(pulse_width); // Print the distance
-	serialPrintf(s, "test message");
-  }
-  delay(20); //Delay so we don't overload the serial port
-}
-
 int pulseIn(int pin, int level, int timeout)
 {
    struct timeval tn, t0, t1;
@@ -60,6 +49,17 @@ int pulseIn(int pin, int level, int timeout)
    micros = micros + (tn.tv_usec - t1.tv_usec);
 
    return micros;
+}
+
+void loop(int s)
+{
+  pulse_width = pulseIn(3, HIGH); // Count how long the pulse is high in microseconds
+  if(pulse_width != 0){ // If we get a reading that isn't zero, let's print it
+        pulse_width = pulse_width/10; // 10usec = 1 cm of distance for LIDAR-Lite
+  	//Serial.println(pulse_width); // Print the distance
+	serialPrintf(s, "test message");
+  }
+  delay(20); //Delay so we don't overload the serial port
 }
 
 int main(int argc, char *argv[]) {
