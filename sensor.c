@@ -58,7 +58,7 @@ int read_distance(int s){
 	delay(2);
 	return pulse_width;
   } 
-  delay(20); //Delay so we don't overload the serial port
+  delay(2); //Delay so we don't overload the serial port
 }
 
 int main(int argc, char *argv[]) {
