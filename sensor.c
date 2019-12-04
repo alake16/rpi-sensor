@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
+#include "buzzer.c"
 
 unsigned long pulse_width;
 
@@ -63,6 +64,7 @@ int read_distance(int s){
 
 int main(int argc, char *argv[]) {
     int s = setup();
+    setupBuzzer();
     while(1) {
 	    int sum = 0;
 	    for(int i = 0; i < 10; i++){
@@ -73,13 +75,12 @@ int main(int argc, char *argv[]) {
 	    if(average > 100) printf("You good: ");
 	    if(average <= 100 && average > 50) printf("Long: ");
 	    if(average <= 50 && average > 25) printf("Medium: ");
-	    if(average <=25) printf("Short: ");
-
+	    if(average <=25) {
+	       printf("Short: ");
+	       buzz();
+	    }
 	    printf("%f\n", average);
 	    //delay(2);
     }
-
-
-
     return 0;
 }
