@@ -2,7 +2,7 @@
 #include <softTone.h>
 #include <stdio.h>
 
-#define BuzPin    0
+#define BuzPin 4
 
 
 #define  CL1  131
