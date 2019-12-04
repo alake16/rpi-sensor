@@ -15,10 +15,10 @@ int main(void) {
   }
   while(1) {
     printf("music is being played...\n");
-    for(i=0;i<sizeof(song_1)/4;i++){
-      softToneWrite(BuzPin, 500); 
-      delay(500);
-    }
+    softToneWrite(BuzPin, 500);
+    delay(500);
+    softToneWrite(BuzPin, 0);
+    delay(500);
   }
   return 0;
 }
