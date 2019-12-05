@@ -74,10 +74,13 @@ int main(int argc, char *argv[]) {
 
 	    if(average > 100) printf("You good: ");
 	    if(average <= 100 && average > 50) printf("Long: ");
-	    if(average <= 50 && average > 25) printf("Medium: ");
+	    if(average <= 50 && average > 25) {
+	       printf("Medium: ");
+	       buzz(average);
+	    }
 	    if(average <=25) {
 	       printf("Short: ");
-	       buzz();
+	       buzz(average);
 	    }
 	    printf("%f\n", average);
 	    //delay(2);
