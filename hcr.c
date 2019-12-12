@@ -1,12 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <wiringPi.h>
+#include <math.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stddef.h>
+#include <unistd.h>
 
 #define TRIGGER 26
 #define ECHO 19
 
 int main(int argc, char *argv[]) {
-	struct timeval pulseStartTime, pulseEndTime, pulseDuration;
+	struct timeval pulseStartTime, pulseEndTime;
+    long pulseDuration;
 	double distance;
 
     wiringPiSetupGpio();
@@ -14,7 +20,6 @@ int main(int argc, char *argv[]) {
   	pinMode(ECHO, INPUT); // Set pin 14 as monitor pin
 
   	// like digitalWrite in wiringPi
-    GPIO.output(PIN_TRIGGER, GPIO.LOW);
     digitalWrite(TRIGGER, LOW);
 
     printf("Waiting for sensor to settle");
@@ -36,7 +41,9 @@ int main(int argc, char *argv[]) {
     	gettimeofday(&pulseEndTime, NULL);
     }
 
-    pulseDuration = pulseEndTime - pulseStartTime;
+    pulseDuration = pulseEndTime.tv_usec - pulseStartTime.tv_usec;
 
-    distance = round(pulse_duration * 17150, 2)
+    distance = (pulseDuration * 17150);
+    printf("%.2f", 2);
+    return 0;
 }

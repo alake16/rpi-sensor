@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-try:
+while(1):
 
     # setup GPIO BCM mode
     GPIO.setmode(GPIO.BCM)
@@ -18,15 +18,11 @@ try:
     # like digitalWrite in wiringPi
     GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
-    print("Waiting for sensor to settle")
-
-    time.sleep(2)
-
-    print("Calculating distance")
+    time.sleep(0.0001)
 
     GPIO.output(PIN_TRIGGER, GPIO.HIGH)
 
-    time.sleep(0.00001)
+    time.sleep(0.0001)
 
     GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
@@ -41,6 +37,4 @@ try:
 
     print("Distance:",distance,"cm")
 
-finally:
-    GPIO.cleanup()
 
