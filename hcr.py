@@ -2,14 +2,20 @@ import RPi.GPIO as GPIO
 import time
 
 try:
+
+    # setup GPIO BCM mode
     GPIO.setmode(GPIO.BCM)
 
+    # indicate BCM GPIO pins
     PIN_TRIGGER = 26
     PIN_ECHO = 19
 
+    # set up trigger pin as output
     GPIO.setup(PIN_TRIGGER, GPIO.OUT)
+    # set up echo pin as input
     GPIO.setup(PIN_ECHO, GPIO.IN)
 
+    # like digitalWrite in wiringPi
     GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
     print("Waiting for sensor to settle")
