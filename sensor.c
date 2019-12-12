@@ -6,8 +6,6 @@
 #include <time.h>
 #include "buzzer.c"
 
-unsigned long pulse_width;
-
 int setup(){
   wiringPiSetupGpio();
   int s = serialOpen("pi", 9600); // Start serial communications
@@ -48,16 +46,12 @@ int pulseIn(int pin, int level, int timeout){
 }
 
 int read_distance(int s){
-  pulse_width = pulseIn(14, HIGH, 1000000); // Count how long the pulse is high in microseconds
-  if(pulse_width < 4000 && pulse_width >= 0){ // If we get a reading that isn't zero, let's print it
+    int pulse_width = pulseIn(14, HIGH, 1000000); // Count how long the pulse is high in microseconds
+    if(pulse_width < 4000 && pulse_width >= 0){ // If we get a reading that isn't zero, let's print it
         pulse_width = pulse_width/10; // 10usec = 1 cm of distance for LIDAR-Lite
-  	//Serial.println(pulse_width); // Print the distance
-	serialPrintf(s, "test message");
-	//if(pulse_width < 4000 && pulse_width >= 0){
-	//	printf("%d\n", pulse_width);
-	//}
-	delay(2);
-	return pulse_width;
+    //}
+    delay(2);
+    return pulse_width;
   } 
   delay(2); //Delay so we don't overload the serial port
 }
@@ -65,25 +59,25 @@ int read_distance(int s){
 int main(int argc, char *argv[]) {
     int s = setup();
     setupBuzzer();
-    while(1) {
+    // simply stop execution of program (ctrl + C) to quit for now
+    while (1) {
 	    int sum = 0;
-	    for(int i = 0; i < 10; i++){
-		sum += read_distance(s);
+	    for (int i = 0; i < 10; i++){
+            sum += read_distance(s);
 	    }
-	    double average = sum/10.0;
+	    double distance = sum/10.0;
 
-	    if(average > 100) printf("You good: ");
-	    if(average <= 100 && average > 50) printf("Long: ");
-	    if(average <= 50 && average > 25) {
+	    if (distance > 100) printf("You good: ");
+	    if (distance <= 100 && distance > 50) printf("Long: ");
+	    if (distance <= 50 && distance > 25) {
 	       printf("Medium: ");
-	       buzz(average);
+	       buzz(distance);
 	    }
-	    if(average <=25) {
+	    if (distance <= 25) {
 	       printf("Short: ");
-	       buzz(average);
+	       buzz(distance);
 	    }
-	    printf("%f\n", average);
-	    //delay(2);
+	    printf("%f\n", distance);
     }
     return 0;
 }

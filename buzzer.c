@@ -13,9 +13,7 @@ void setupBuzzer() {
 }
 
 void buzz(double distance) {
-      printf("buzzer sounding\n");
       softToneWrite(BuzPin, 500);
       delay(distance * 10);
       softToneWrite(BuzPin, 0);
-      // delay(distance);
 }
