@@ -4,18 +4,9 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
-#include <pthread.h>
 #include "buzzer.c"
 
 unsigned long pulse_width;
-double* distance;
-
-void *buzzBuzzer(void *voidData) {
-    args *args = voidData;
-    mailbox_send(args -> mailboxes, args -> message);
-    printf("Message Sent: %s\n", (args -> message) -> messageContent);
-    pthread_exit(NULL);
-}
 
 int setup(){
   wiringPiSetupGpio();
@@ -80,7 +71,6 @@ int main(int argc, char *argv[]) {
 		sum += read_distance(s);
 	    }
 	    double average = sum/10.0;
-      *distance = average
 
 	    if(average > 100) printf("You good: ");
 	    if(average <= 100 && average > 50) printf("Long: ");
