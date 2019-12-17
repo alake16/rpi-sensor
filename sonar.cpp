@@ -1,31 +1,44 @@
 #include <wiringPi.h>
 #include "sonar.h"
 
-Sonar::Sonar(int triggerIn, int echoIn) :
-	trigger(triggerIn), echo(echoIn) {
+Sonar::Sonar(int triggerIn, int echoIn, int positionIn) :
+	trigger(triggerIn), echo(echoIn), position(positionIn) {
 		pinMode(trigger, OUTPUT);
 		pinMode(echo, INPUT);
 		digitalWrite(trigger, LOW);
 		delay(500);
 	}
+	
+int Sonar::getTrigger() {
+	return trigger;
+}
 
-Sonar::distance(int timeout) {
+int Sonar::getEcho() {
+	return echo;
+}
+
+int Sonar::getPosition() {
+	return position;
+}
+	
+double Sonar::distance(int timeout) {
 	delay(10);
 	digitalWrite(trigger, HIGH);
 	delayMicroseconds(10);
 	digitalWrite(trigger, LOW);
 
-	now = micros();
-
-	while (digitalRead(echo == LOW) && micros() - now < timeout);
-		recordPulseLength();
-
-	travelTimeUsec = endTimeUsec - startTimeUsec;
-	distanceMeters = 100 * ((travelTimeUsec / 1000000.0) * 340.29) / 2;
+	while (digitalRead(echo) == LOW) startTimeUsec = micros();
+    while (digitalRead(echo) == HIGH) endTimeUsec = micros();
+    
+    travelTimeUsec = endTimeUsec - startTimeUsec;
+	
+	distanceCM = 100 * ((travelTimeUsec / 1000000.0) * 340.29) / 2;
+	distanceIN = 0.3937008 * distanceCM;
+	return distanceIN;
 }
 
-Sonar::recordPulseLength() {
+void Sonar::recordPulseLength() {
 	startTimeUsec = micros();
 	while (digitalRead(echo) == HIGH);
-	endTimeUsec = micros()
+	endTimeUsec = micros();
 }
